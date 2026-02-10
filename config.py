@@ -8,6 +8,9 @@ DATA_DIR = os.getenv("DATA_DIR", "data")
 
 # --- Proxy Settings ---
 TELEGRAM_PROXY = os.getenv("TELEGRAM_PROXY") or os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+# config.py
+
+ADMIN_IDS = ["1812962224"]
 
 # --- Request Timeouts ---
 TG_CONNECT_TIMEOUT = int(os.getenv("TG_CONNECT_TIMEOUT", "10"))
