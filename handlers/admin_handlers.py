@@ -1,85 +1,92 @@
+# handlers/group_handlers.py
 from telegram import Update
 from telegram.ext import ContextTypes
 import json
 import os
+import logging
 
-ADMINS_FILE = "admins.json"
-EVENTS_FILE = "events.json"
+logger = logging.getLogger("ChurchBot.group_handlers")
 
-def load_data(file):
-    if not os.path.exists(file):
+DATA_DIR = os.getenv("DATA_DIR", "data")
+GROUPS_FILE = os.path.join(DATA_DIR, "groups.json")
+
+def load_groups():
+    if not os.path.exists(GROUPS_FILE):
         return []
-    with open(file, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(GROUPS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        logger.exception("Failed to load groups.json; returning empty list.")
+        return []
 
-def save_data(file, data):
-    with open(file, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+def save_groups(groups):
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
+        with open(GROUPS_FILE, "w", encoding="utf-8") as f:
+            json.dump(groups, f, ensure_ascii=False, indent=2)
+    except Exception:
+        logger.exception("Failed to save groups.json")
 
-async def addadmin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def addgroup(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
-        await update.message.reply_text("⚠️ Please provide a user ID.\nကျေးဇူးပြုပြီး User ID ထည့်ပါ။")
+        await update.message.reply_text("⚠️ Provide a group ID.\nGroup ID ထည့်ပါ။")
         return
-    admins = load_data(ADMINS_FILE)
-    user_id = context.args[0]
-    if user_id not in admins:
-        admins.append(user_id)
-        save_data(ADMINS_FILE, admins)
-        await update.message.reply_text(f"✅ Admin {user_id} added.\nအက်ဒမင် {user_id} ထည့်ပြီးပါပြီ။")
+    groups = load_groups()
+    group_id = context.args[0]
+    if group_id not in groups:
+        groups.append(group_id)
+        save_groups(groups)
+        await update.message.reply_text(f"✅ Group {group_id} added.\nGroup {group_id} ထည့်ပြီးပါပြီ။")
     else:
-        await update.message.reply_text("ℹ️ Already an admin.\nယခုအက်ဒမင်ဖြစ်ပြီးသားပါ။")
+        await update.message.reply_text("ℹ️ Already in group list.\nGroup စာရင်းထဲတွင် ရှိပြီးသားပါ။")
 
-async def listadmins(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    admins = load_data(ADMINS_FILE)
-    if not admins:
-        await update.message.reply_text("No admins yet.\nအက်ဒမင် မရှိသေးပါ။")
+async def listgroups(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    groups = load_groups()
+    if not groups:
+        await update.message.reply_text("No groups yet.\nGroup မရှိသေးပါ။")
     else:
-        await update.message.reply_text("Admins:\n" + "\n".join(admins))
+        await update.message.reply_text("Groups:\n" + "\n".join(groups))
 
-async def deladmin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def delgroup(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
-        await update.message.reply_text("⚠️ Provide a user ID to remove.\nUser ID ထည့်ပါ။")
+        await update.message.reply_text("⚠️ Provide a group ID to remove.\nGroup ID ထည့်ပါ။")
         return
-    admins = load_data(ADMINS_FILE)
-    user_id = context.args[0]
-    if user_id in admins:
-        admins.remove(user_id)
-        save_data(ADMINS_FILE, admins)
-        await update.message.reply_text(f"❌ Admin {user_id} removed.\nအက်ဒမင် {user_id} ဖယ်ရှားပြီးပါပြီ။")
+    groups = load_groups()
+    group_id = context.args[0]
+    if group_id in groups:
+        groups.remove(group_id)
+        save_groups(groups)
+        await update.message.reply_text(f"❌ Group {group_id} removed.\nGroup {group_id} ဖယ်ရှားပြီးပါပြီ။")
     else:
-        await update.message.reply_text("User not found in admins.\nအက်ဒမင်စာရင်းထဲတွင် မတွေ့ပါ။")
+        await update.message.reply_text("Group not found.\nGroup မတွေ့ပါ။")
 
-async def broadcast_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not context.args:
-        await update.message.reply_text("⚠️ Provide a message to broadcast.\nMessage ထည့်ပါ။")
-        return
-    message = " ".join(context.args)
-    admins = load_data(ADMINS_FILE)
-    success, fail = 0, 0
-    for admin_id in admins:
-        try:
-            await context.bot.send_message(chat_id=admin_id, text=message)
-            success += 1
-        except Exception:
-            fail += 1
-    await update.message.reply_text(f"📢 Broadcast complete.\n✅ Success: {success}, ❌ Fail: {fail}")
+async def on_my_chat_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat = update.my_chat_member.chat
+    new_status = update.my_chat_member.new_chat_member.status
+    old_status = update.my_chat_member.old_chat_member.status
 
+    # Auto-register when bot is added to group
+    if new_status in ["administrator", "member"]:
+        groups = load_groups()
+        if str(chat.id) not in groups:
+            groups.append(str(chat.id))
+            save_groups(groups)
+            await context.bot.send_message(chat.id, "✅ Group registered automatically.")
+            logger.info("Group %s registered automatically.", chat.id)
 
+    elif new_status == "kicked":
+        groups = load_groups()
+        if str(chat.id) in groups:
+            groups.remove(str(chat.id))
+            save_groups(groups)
+            logger.info("Group %s removed after bot was kicked.", chat.id)
 
-async def broadcast_users_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Similar to broadcast_cmd but for user list
-    await update.message.reply_text("📢 Broadcast to users sent.\nအသုံးပြုသူများထံ ပို့ပြီးပါပြီ။")
-
-async def addevent(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not context.args:
-        await update.message.reply_text("⚠️ Provide event details.\nEvent အချက်အလက် ထည့်ပါ။")
-        return
-    events = load_data(EVENTS_FILE)
-    event = " ".join(context.args)
-    events.append(event)
-    save_data(EVENTS_FILE, events)
-    await update.message.reply_text(f"📅 Event added: {event}\nအဖြစ်အပျက် ထည့်ပြီးပါပြီ။")
-
-async def clearevents(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    save_data(EVENTS_FILE, [])
-    await update.message.reply_text("🗑️ All events cleared.\nအဖြစ်အပျက်အားလုံး ဖျက်ပြီးပါပြီ။")
+    # Debug log (optional)
+    msg = (
+        f"🔄 Chat member update:\n"
+        f"Chat: {chat.title or chat.id}\n"
+        f"Old status: {old_status}\n"
+        f"New status: {new_status}"
+    )
+    logger.debug(msg)
