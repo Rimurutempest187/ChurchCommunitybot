@@ -1,27 +1,65 @@
-import json
+# utils/json_utils.py
 import os
-from typing import Any
+import json
+import logging
+from typing import Any, Dict
 
-def load_json(file: str, default: Any = None) -> Any:
+logger = logging.getLogger("ChurchBot.json_utils")
+
+def init_data_files(data_dir: str) -> None:
     """
-    Load JSON data from a file. Returns default if file doesn't exist or is invalid.
+    Ensure required JSON data files exist inside `data_dir`.
+    If missing, create them with sensible defaults.
     """
+    os.makedirs(data_dir, exist_ok=True)
+
+    files_with_defaults: Dict[str, Any] = {
+        "admins.json": [],
+        "groups.json": [],
+        "prayers.json": [],
+        "events.json": []
+    }
+
+    for filename, default in files_with_defaults.items():
+        path = os.path.join(data_dir, filename)
+        if not os.path.exists(path):
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(default, f, ensure_ascii=False, indent=2)
+                logger.info("Created %s with default value.", path)
+            except Exception as e:
+                logger.exception("Failed to initialize %s: %s", path, e)
+        else:
+            # Validate JSON; if invalid, overwrite with default (safe fallback)
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    json.load(f)
+            except Exception:
+                try:
+                    with open(path, "w", encoding="utf-8") as f:
+                        json.dump(default, f, ensure_ascii=False, indent=2)
+                    logger.warning("Reinitialized corrupted file %s with default.", path)
+                except Exception as e:
+                    logger.exception("Failed to reinitialize %s: %s", path, e)
+
+def load_json(file_path: str, default=None):
     if default is None:
         default = []
-    if not os.path.exists(file):
-        return default
     try:
-        with open(file, "r", encoding="utf-8") as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
-    except (json.JSONDecodeError, OSError):
+    except (FileNotFoundError, json.JSONDecodeError):
+        return default
+    except Exception as e:
+        logger.exception("Unexpected error loading %s: %s", file_path, e)
         return default
 
-def save_json(file: str, data: Any) -> None:
-    """
-    Save data to a JSON file safely.
-    """
+def save_json(file_path: str, data) -> None:
     try:
-        with open(file, "w", encoding="utf-8") as f:
+        dirpath = os.path.dirname(file_path)
+        if dirpath and not os.path.exists(dirpath):
+            os.makedirs(dirpath, exist_ok=True)
+        with open(file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-    except OSError as e:
-        print(f"Error saving {file}: {e}")
+    except Exception as e:
+        logger.exception("Error saving %s: %s", file_path, e)
