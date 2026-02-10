@@ -1,8 +1,10 @@
 # utils/bot_utils.py
 import os
+import logging
 from typing import List
 from .json_utils import load_json, save_json
-import logging
+from telegram import Update
+from telegram.ext import ContextTypes
 
 logger = logging.getLogger("ChurchBot.bot_utils")
 
@@ -71,3 +73,12 @@ def add_event(event: str) -> None:
 
 def clear_events() -> None:
     save_json(EVENTS_FILE, [])
+
+# Async error handler for Application
+async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.exception("Unhandled exception in update: %s", context.error)
+    try:
+        if update and getattr(update, "message", None):
+            await update.message.reply_text("An unexpected error occurred. The team has been notified.")
+    except Exception:
+        logger.exception("Failed to send error message to user.")
