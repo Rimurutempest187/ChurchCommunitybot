@@ -51,18 +51,19 @@ async def deladmin(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def broadcast_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
-        await update.message.reply_text("⚠️ Provide a message to broadcast. Usage: /broadcast <message>")
+        await update.message.reply_text("⚠️ Provide a message to broadcast.\nMessage ထည့်ပါ။")
         return
     message = " ".join(context.args)
-    groups = get_groups()
+    admins = load_data(ADMINS_FILE)
     success, fail = 0, 0
-    for group_id in groups:
+    for admin_id in admins:
         try:
-            await context.bot.send_message(chat_id=int(group_id), text=message)
+            await context.bot.send_message(chat_id=admin_id, text=message)
             success += 1
         except Exception:
             fail += 1
     await update.message.reply_text(f"📢 Broadcast complete.\n✅ Success: {success}, ❌ Fail: {fail}")
+
 
 
 async def broadcast_users_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
