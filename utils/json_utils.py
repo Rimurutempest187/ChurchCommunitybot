@@ -7,10 +7,6 @@ from typing import Any, Dict
 logger = logging.getLogger("ChurchBot.json_utils")
 
 def init_data_files(data_dir: str) -> None:
-    """
-    Ensure required JSON data files exist inside `data_dir`.
-    If missing, create them with sensible defaults.
-    """
     os.makedirs(data_dir, exist_ok=True)
 
     files_with_defaults: Dict[str, Any] = {
@@ -30,7 +26,6 @@ def init_data_files(data_dir: str) -> None:
             except Exception as e:
                 logger.exception("Failed to initialize %s: %s", path, e)
         else:
-            # Validate JSON; if invalid, overwrite with default (safe fallback)
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     json.load(f)
