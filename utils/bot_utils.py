@@ -33,8 +33,9 @@ def remove_admin(user_id: str) -> bool:
         return True
     return False
 
-def is_admin(user_id: str) -> bool:
-    return str(user_id) in get_admins()
+def is_admin(user_id):
+    admins = get_admins()  # returns list of strings
+    return str(user_id) in [str(a) for a in admins]
 
 def get_groups():
     return load_json(GROUPS_FILE, [])
