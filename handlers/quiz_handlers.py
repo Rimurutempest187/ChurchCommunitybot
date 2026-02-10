@@ -1,44 +1,982 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 
-QUIZ_QUESTIONS = [
-    {
-        "question": "📖 What is the first book of the Bible?",
-        "options": {
-            "A": "Genesis",
-            "B": "Exodus",
-            "C": "Leviticus",
-            "D": "Numbers"
-        },
-        "answer": "A"
-    },
-    {
-        "question": "🙏 Who led the Israelites out of Egypt?",
-        "options": {
-            "A": "David",
-            "B": "Moses",
-            "C": "Abraham",
-            "D": "Joshua"
-        },
-        "answer": "B"
-    }
-]
+QUIZ_QUESTIONS =[
+  {
+    "question": "Who created the heavens and the earth?",
+    "choices": ["A. Moses", "B. Abraham", "C. God", "D. David"],
+    "answer": "C"
+  },
+  {
+    "question": "Who built the ark?",
+    "choices": ["A. Noah", "B. Moses", "C. Abraham", "D. Jacob"],
+    "answer": "A"
+  },
+  {
+    "question": "Who was swallowed by a big fish?",
+    "choices": ["A. Peter", "B. Jonah", "C. Paul", "D. John"],
+    "answer": "B"
+  },
+  {
+    "question": "Who led Israel out of Egypt?",
+    "choices": ["A. Joseph", "B. David", "C. Moses", "D. Aaron"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was the first man?",
+    "choices": ["A. Abel", "B. Adam", "C. Noah", "D. Seth"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was the first woman?",
+    "choices": ["A. Sarah", "B. Rebekah", "C. Eve", "D. Rachel"],
+    "answer": "C"
+  },
+  {
+    "question": "Where was Jesus born?",
+    "choices": ["A. Nazareth", "B. Jerusalem", "C. Bethlehem", "D. Galilee"],
+    "answer": "C"
+  },
+  {
+    "question": "Who betrayed Jesus?",
+    "choices": ["A. Peter", "B. John", "C. Judas", "D. Thomas"],
+    "answer": "C"
+  },
+  {
+    "question": "How many disciples did Jesus have?",
+    "choices": ["A. 10", "B. 11", "C. 12", "D. 13"],
+    "answer": "C"
+  },
+  {
+    "question": "Who denied Jesus three times?",
+    "choices": ["A. Peter", "B. Paul", "C. James", "D. Andrew"],
+    "answer": "A"
+  },
 
+  {
+    "question": "Who wrote most of the Psalms?",
+    "choices": ["A. Solomon", "B. David", "C. Moses", "D. Isaiah"],
+    "answer": "B"
+  },
+  {
+    "question": "Who received the Ten Commandments?",
+    "choices": ["A. Abraham", "B. Noah", "C. Moses", "D. Aaron"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was known as the wisest king?",
+    "choices": ["A. David", "B. Solomon", "C. Saul", "D. Hezekiah"],
+    "answer": "B"
+  },
+  {
+    "question": "Who killed Goliath?",
+    "choices": ["A. Saul", "B. David", "C. Jonathan", "D. Samson"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was thrown into the lions’ den?",
+    "choices": ["A. Jeremiah", "B. Ezekiel", "C. Daniel", "D. Isaiah"],
+    "answer": "C"
+  },
+  {
+    "question": "Who had great strength?",
+    "choices": ["A. Samson", "B. Saul", "C. David", "D. Solomon"],
+    "answer": "A"
+  },
+  {
+    "question": "Who walked on water with Jesus?",
+    "choices": ["A. John", "B. James", "C. Peter", "D. Andrew"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was Jesus’ mother?",
+    "choices": ["A. Martha", "B. Elizabeth", "C. Mary", "D. Ruth"],
+    "answer": "C"
+  },
+  {
+    "question": "Who baptized Jesus?",
+    "choices": ["A. Peter", "B. John the Baptist", "C. Paul", "D. James"],
+    "answer": "B"
+  },
+  {
+    "question": "Who wrote the Book of Revelation?",
+    "choices": ["A. Paul", "B. Peter", "C. John", "D. Luke"],
+    "answer": "C"
+  },
+
+  {
+    "question": "What is the first book of the Bible?",
+    "choices": ["A. Exodus", "B. Genesis", "C. Leviticus", "D. Matthew"],
+    "answer": "B"
+  },
+  {
+    "question": "What is the last book of the Bible?",
+    "choices": ["A. Jude", "B. Hebrews", "C. Revelation", "D. Acts"],
+    "answer": "C"
+  },
+  {
+    "question": "Who wrote most of the New Testament letters?",
+    "choices": ["A. Peter", "B. John", "C. Paul", "D. James"],
+    "answer": "C"
+  },
+  {
+    "question": "How many days did God take to create the world?",
+    "choices": ["A. 5", "B. 6", "C. 7", "D. 8"],
+    "answer": "B"
+  },
+  {
+    "question": "What is the shortest verse in the Bible?",
+    "choices": ["A. Jesus wept", "B. God is love", "C. Pray always", "D. Rejoice"],
+    "answer": "A"
+  },
+  {
+    "question": "Who was the first king of Israel?",
+    "choices": ["A. David", "B. Saul", "C. Solomon", "D. Samuel"],
+    "answer": "B"
+  },
+  {
+    "question": "Who interpreted Pharaoh’s dreams?",
+    "choices": ["A. Daniel", "B. Joseph", "C. Moses", "D. Aaron"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was sold by his brothers?",
+    "choices": ["A. Jacob", "B. Isaac", "C. Joseph", "D. Benjamin"],
+    "answer": "C"
+  },
+  {
+    "question": "Who rebuilt the walls of Jerusalem?",
+    "choices": ["A. Ezra", "B. Nehemiah", "C. Esther", "D. Mordecai"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was taken to heaven in a chariot of fire?",
+    "choices": ["A. Elisha", "B. Elijah", "C. Isaiah", "D. Jeremiah"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was Melchizedek?",
+    "choices": ["A. King of Salem and priest of God", "B. Prophet of Israel", "C. Son of David", "D. High priest in Jerusalem"],
+    "answer": "A"
+  },
+  {
+    "question": "Which prophet saw wheels within wheels?",
+    "choices": ["A. Isaiah", "B. Jeremiah", "C. Ezekiel", "D. Daniel"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was the father of John the Baptist?",
+    "choices": ["A. Eli", "B. Zechariah", "C. Simeon", "D. Ananias"],
+    "answer": "B"
+  },
+  {
+    "question": "How old was Noah when the flood came?",
+    "choices": ["A. 500", "B. 550", "C. 600", "D. 650"],
+    "answer": "C"
+  },
+  {
+    "question": "Which judge killed 600 Philistines with an ox goad?",
+    "choices": ["A. Samson", "B. Shamgar", "C. Gideon", "D. Jephthah"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was the mother of Samuel?",
+    "choices": ["A. Deborah", "B. Hannah", "C. Ruth", "D. Abigail"],
+    "answer": "B"
+  },
+  {
+    "question": "Which book contains the phrase 'Vanity of vanities'?",
+    "choices": ["A. Proverbs", "B. Psalms", "C. Ecclesiastes", "D. Job"],
+    "answer": "C"
+  },
+  {
+    "question": "Who replaced Judas Iscariot?",
+    "choices": ["A. Barnabas", "B. Matthias", "C. Silas", "D. Timothy"],
+    "answer": "B"
+  },
+  {
+    "question": "Where was Paul converted?",
+    "choices": ["A. Jerusalem Road", "B. Road to Damascus", "C. Antioch", "D. Rome"],
+    "answer": "B"
+  },
+  {
+    "question": "Which king saw the writing on the wall?",
+    "choices": ["A. Nebuchadnezzar", "B. Darius", "C. Belshazzar", "D. Cyrus"],
+    "answer": "C"
+  },
+
+  {
+    "question": "Who was Abraham’s nephew?",
+    "choices": ["A. Isaac", "B. Jacob", "C. Lot", "D. Esau"],
+    "answer": "C"
+  },
+  {
+    "question": "Which prophet married a prostitute?",
+    "choices": ["A. Amos", "B. Hosea", "C. Micah", "D. Joel"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was stoned to death in Acts?",
+    "choices": ["A. James", "B. Stephen", "C. Peter", "D. Philip"],
+    "answer": "B"
+  },
+  {
+    "question": "What was Matthew’s profession?",
+    "choices": ["A. Fisherman", "B. Tax collector", "C. Tentmaker", "D. Soldier"],
+    "answer": "B"
+  },
+  {
+    "question": "Which woman judged Israel?",
+    "choices": ["A. Esther", "B. Ruth", "C. Deborah", "D. Hannah"],
+    "answer": "C"
+  },
+  {
+    "question": "Who cut off Malchus’ ear?",
+    "choices": ["A. James", "B. John", "C. Peter", "D. Andrew"],
+    "answer": "C"
+  },
+  {
+    "question": "Which city was Jonah sent to?",
+    "choices": ["A. Babylon", "B. Nineveh", "C. Tyre", "D. Sidon"],
+    "answer": "B"
+  },
+  {
+    "question": "Who wrote the book of Lamentations?",
+    "choices": ["A. Isaiah", "B. Ezekiel", "C. Jeremiah", "D. Daniel"],
+    "answer": "C"
+  },
+  {
+    "question": "Which gospel was written for Gentiles?",
+    "choices": ["A. Matthew", "B. Mark", "C. Luke", "D. John"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was Paul’s mentor?",
+    "choices": ["A. Peter", "B. Barnabas", "C. Gamaliel", "D. Silas"],
+    "answer": "C"
+  },
+
+  {
+    "question": "Which tribe produced the first king?",
+    "choices": ["A. Judah", "B. Benjamin", "C. Levi", "D. Ephraim"],
+    "answer": "B"
+  },
+  {
+    "question": "Who carried Jesus’ cross?",
+    "choices": ["A. Simon of Cyrene", "B. Joseph of Arimathea", "C. Nicodemus", "D. Barabbas"],
+    "answer": "A"
+  },
+  {
+    "question": "Which disciple doubted Jesus’ resurrection?",
+    "choices": ["A. Peter", "B. Thomas", "C. Philip", "D. Andrew"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was king when Jesus was born?",
+    "choices": ["A. Herod the Great", "B. Herod Antipas", "C. Pilate", "D. Caesar"],
+    "answer": "A"
+  },
+  {
+    "question": "Which apostle was exiled to Patmos?",
+    "choices": ["A. Peter", "B. James", "C. John", "D. Paul"],
+    "answer": "C"
+  },
+  {
+    "question": "Who anointed David as king?",
+    "choices": ["A. Nathan", "B. Samuel", "C. Elijah", "D. Elisha"],
+    "answer": "B"
+  },
+  {
+    "question": "Which book mentions Behemoth and Leviathan?",
+    "choices": ["A. Psalms", "B. Isaiah", "C. Job", "D. Ezekiel"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was Boaz’s wife?",
+    "choices": ["A. Naomi", "B. Rachel", "C. Ruth", "D. Esther"],
+    "answer": "C"
+  },
+  {
+    "question": "Which prophet confronted King Ahab?",
+    "choices": ["A. Elisha", "B. Elijah", "C. Isaiah", "D. Amos"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was the Roman governor who tried Jesus?",
+    "choices": ["A. Felix", "B. Festus", "C. Pilate", "D. Herod"],
+    "answer": "C"
+  },
+
+  {
+    "question": "Which book records Pentecost?",
+    "choices": ["A. Matthew", "B. Acts", "C. Romans", "D. Hebrews"],
+    "answer": "B"
+  },
+  {
+    "question": "Who wrote Hebrews (traditionally)?",
+    "choices": ["A. Peter", "B. John", "C. Paul", "D. Luke"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was Enoch’s great-grandson?",
+    "choices": ["A. Noah", "B. Seth", "C. Lamech", "D. Methuselah"],
+    "answer": "A"
+  },
+  {
+    "question": "Which city fell after marching 7 days?",
+    "choices": ["A. Ai", "B. Jericho", "C. Hebron", "D. Bethel"],
+    "answer": "B"
+  },
+  {
+    "question": "Who was Esther’s cousin?",
+    "choices": ["A. Ezra", "B. Nehemiah", "C. Mordecai", "D. Haman"],
+    "answer": "C"
+  },
+  {
+    "question": "Which apostle was a tentmaker?",
+    "choices": ["A. Peter", "B. Paul", "C. John", "D. James"],
+    "answer": "B"
+  },
+  {
+    "question": "Who named John the Baptist?",
+    "choices": ["A. Mary", "B. Elizabeth", "C. Zechariah", "D. Simeon"],
+    "answer": "C"
+  },
+  {
+    "question": "Which prophet challenged Baal’s priests?",
+    "choices": ["A. Isaiah", "B. Jeremiah", "C. Elijah", "D. Amos"],
+    "answer": "C"
+  },
+  {
+    "question": "Who was the first martyr?",
+    "choices": ["A. James", "B. Stephen", "C. Peter", "D. Paul"],
+    "answer": "B"
+  },
+  {
+    "question": "Which book speaks of the armor of God?",
+    "choices": ["A. Romans", "B. Galatians", "C. Ephesians", "D. Colossians"],
+    "answer": "C"
+  },
+  {
+    "question": "ဘုရားသခင်က ကမ္ဘာကို ဘယ်နေ့မှာ ဖန်ဆင်းပြီး အနားယူခဲ့သလဲ?",
+    "choices": [
+      "A. ပထမနေ့",
+      "B. ခြောက်နေ့",
+      "C. ခုနစ်နေ့",
+      "D. ရှစ်နေ့"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "အာဒမ်နဲ့ ဟဝါကို ဘယ်နေရာမှာ ဖန်ဆင်းထားသလဲ?",
+    "choices": [
+      "A. ဧဂျစ်",
+      "B. ဧဒင်ဥယျာဉ်",
+      "C. ဘေသလေဟမ်",
+      "D. ယေရုရှလင်"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "နောဟာ ဘယ်နှစ်နှစ်မှာ ရေလွှမ်းမိုးဖြစ်ခဲ့သလဲ?",
+    "choices": [
+      "A. ၄၀၀",
+      "B. ၅၀၀",
+      "C. ၆၀၀",
+      "D. ၇၀၀"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "မောရှေက ပင်လယ်နီကို ဘယ်လိုခွဲခဲ့သလဲ?",
+    "choices": [
+      "A. ဆုတောင်းခြင်းဖြင့်",
+      "B. လက်ထောက်နဲ့",
+      "C. ဘုရားသခင်၏အမိန့်ဖြင့်",
+      "D. စစ်တပ်နဲ့"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ဒေးဗစ်က ဂေါလျတ်ကို ဘာနဲ့ သတ်ခဲ့သလဲ?",
+    "choices": [
+      "A. ဓား",
+      "B. လှံ",
+      "C. ကျောက်နဲ့လှည့်ခတ်တံ",
+      "D. မြား"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယေရှုကို ဘယ်မြို့မှာ မွေးဖွားခဲ့သလဲ?",
+    "choices": [
+      "A. နာဇရက်",
+      "B. ဘေသလေဟမ်",
+      "C. ယေရုရှလင်",
+      "D. ကာဖနာအုမ်"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှု၏ မိခင်အမည်က ဘာလဲ?",
+    "choices": [
+      "A. မာသ",
+      "B. မာရိ",
+      "C. အန်နာ",
+      "D. ရုသ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှု၏ အကျော်ကြားဆုံး တပည့်က ဘယ်သူလဲ?",
+    "choices": [
+      "A. ပေတရု",
+      "B. ယောဟန်",
+      "C. ယာကုပ်",
+      "D. အန္ဒရေ"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ဘုရားသခင်က မောရှေကို ပေးသော ဥပဒေစာအုပ် ဘယ်နှစ်ပါးရှိသလဲ?",
+    "choices": [
+      "A. ၅",
+      "B. ၇",
+      "C. ၁၀",
+      "D. ၁၂"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယေရှုကို ဘယ်သူက သစ္စာဖောက်ခဲ့သလဲ?",
+    "choices": [
+      "A. ပေတရု",
+      "B. ယုဒ",
+      "C. သောမတ်",
+      "D. ဖိလိပ္ပု"
+    ],
+    "answer": "B"
+  },
+
+  {
+    "question": "နောဟာ၏ သင်္ဘောကို ဘယ်ပစ္စည်းနဲ့ ဆောက်ခဲ့သလဲ?",
+    "choices": [
+      "A. သံ",
+      "B. သစ်သား",
+      "C. ကျောက်",
+      "D. ကြေး"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယောနာကို ဘယ်အရာက မြိုက်စားခဲ့သလဲ?",
+    "choices": [
+      "A. ငါးကြီး",
+      "B. မြွေ",
+      "C. ကျား",
+      "D. လင်းပိုင်"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ရှမွေလက ဘယ်သူကို ဘုရင်အဖြစ် ခန့်အပ်ခဲ့သလဲ?",
+    "choices": [
+      "A. ဆောလု",
+      "B. ဒေးဗစ်",
+      "C. ဆောလုနဲ့ ဒေးဗစ်",
+      "D. ဆောလုနဲ့ ဆောလမွန်"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ပေါလုသည် မူလအမည် ဘာလဲ?",
+    "choices": [
+      "A. ဆီလာ",
+      "B. ဆောလု",
+      "C. စတီဗင်",
+      "D. ဘာနာဗာ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှုသည် ဘယ်နေ့တွင် ထမြောက်လာခဲ့သလဲ?",
+    "choices": [
+      "A. သုံးရက်မြောက်နေ့",
+      "B. တစ်ရက်",
+      "C. ခုနစ်ရက်",
+      "D. ဆယ်ရက်"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "မေလ်ခိဇဒက်သည် ဘယ်အရာဖြစ်ခဲ့သလဲ?",
+    "choices": [
+      "A. ယဇ်ပုရောဟိတ်နှင့် ဘုရင်",
+      "B. မောရှေ၏တပည့်",
+      "C. အစ္စရေးလ်ဘုရင်",
+      "D. ပရောဖက်"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ယေဇကျေလ်သည် ဘယ်ရူပါရုံကို မြင်တွေ့ခဲ့သလဲ?",
+    "choices": [
+      "A. မီးလောင်နေသောတောင်",
+      "B. ဘုရား၏ထီးနန်း",
+      "C. ဘီးအတွင်း ဘီးများ",
+      "D. ရွှေတံခါး"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယောဟန်ဗတ္တိဇာ၏ အဖေအမည်မှာ ဘာလဲ?",
+    "choices": [
+      "A. အာဗရာဟမ်",
+      "B. ဇက္ခရိယာ",
+      "C. ဆီမုန်",
+      "D. အာနန်နီယ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ရေလွှမ်းမိုးဖြစ်စဉ်အချိန်တွင် နောဟာ၏ အသက်ဘယ်နှစ်ရှိသလဲ?",
+    "choices": [
+      "A. ၅၀၀",
+      "B. ၅၅၀",
+      "C. ၆၀၀",
+      "D. ၆၅၀"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "နွားချောင်းတံဖြင့် ဖိလိပ္ပုသား ၆၀၀ ကို သတ်ခဲ့သူမှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. ဆမ်ဆန်",
+      "B. ရှမ်းဂါ",
+      "C. ဂိဒေါင်",
+      "D. ယပ်သာ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ရှမွေလ၏ မိခင်မှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. ဒေဘိုရာ",
+      "B. ဟန်နာ",
+      "C. ရုသ",
+      "D. အဘီဂေးလ်"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "“အလဟသ အလဟသ” ဟူသောစကား ပါဝင်သည့် စာအုပ်မှာ ဘယ်ဟာလဲ?",
+    "choices": [
+      "A. ဆာလံ",
+      "B. သုတ္တံ",
+      "C. ဧကလိရှာစတေ့စ်",
+      "D. ယောဘ"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယုဒအစ္စခာရီယတ် အစားထိုးခံခဲ့သူမှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. ဘာနာဗာ",
+      "B. မာသီယာ",
+      "C. ဆီလာ",
+      "D. တိမောသေ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ပေါလုသည် ဘယ်လမ်းပေါ်တွင် ပြောင်းလဲယုံကြည်ခဲ့သလဲ?",
+    "choices": [
+      "A. ယေရုရှလင်လမ်း",
+      "B. ဒမက်စကပ်လမ်း",
+      "C. အန္တီယော့",
+      "D. ရောမ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "နံရံပေါ်စာကို မြင်ခဲ့သော ဘုရင်မှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. နဘူခါဒ်နေဇာ",
+      "B. ဒာရိယု",
+      "C. ဘယ်လ်ရှဇာ",
+      "D. စိုင်ရပ်"
+    ],
+    "answer": "C"
+  },
+
+  {
+    "question": "အာဗရာဟမ်၏ မောင်တော်မှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. အီဇက်",
+      "B. ယာကုပ်",
+      "C. လော့",
+      "D. အီဆော"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ဘယ်ပရောဖက်က မုဆိုးမတစ်ယောက်ကို လက်ထပ်ခဲ့သလဲ?",
+    "choices": [
+      "A. အာမုတ်",
+      "B. ဟိုးရှေ",
+      "C. မိကာ",
+      "D. ယောဝဲလ်"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "မိတ်ဆွေများရှေ့တွင် ကျောက်ဖြင့် သတ်ခံရသူမှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. ယာကုပ်",
+      "B. စတီဗင်",
+      "C. ပေတရု",
+      "D. ဖိလိပ္ပု"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "မဿဲ၏ အလုပ်အကိုင်မှာ ဘာလဲ?",
+    "choices": [
+      "A. ငါးဖမ်းသမား",
+      "B. အခွန်ကောက်သူ",
+      "C. စစ်သား",
+      "D. ဆရာ"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "အစ္စရေးလ်ကို တရားသူကြီးအဖြစ် အုပ်ချုပ်ခဲ့သော မိန်းမမှာ ဘယ်သူလဲ?",
+    "choices": [
+      "A. အက်စတာ",
+      "B. ရုသ",
+      "C. ဒေဘိုရာ",
+      "D. ဟန်နာ"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ဘုရားသခင်က အာဗရာဟမ်ကို ထွက်ခွာစေသော အမိန့်ကို ဘယ်ကျမ်းပိုဒ်တွင် ဖော်ပြထားသလဲ?",
+    "choices": [
+      "A. ထွက်မြောက်ရာ 12:1",
+      "B. ကမ္ဘာဦး 12:1",
+      "C. ကမ္ဘာဦး 15:6",
+      "D. ကမ္ဘာဦး 17:5"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "“ယေဟောဝါသည် ကျွန်ုပ်၏သိုးထိန်းဖြစ်သည်” ဟုရေးထားသည့် ကျမ်းပိုဒ်မှာ ဘယ်ဟာလဲ?",
+    "choices": [
+      "A. ဆာလံ 22:1",
+      "B. ဆာလံ 23:1",
+      "C. ဆာလံ 24:1",
+      "D. ဆာလံ 121:1"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှုက “ငါသည် လမ်းဖြစ်၍ အမှန်တရားဖြစ်၍ အသက်ဖြစ်သည်” ဟု ပြောခဲ့သည့် ကျမ်းပိုဒ်မှာ ဘယ်ဟာလဲ?",
+    "choices": [
+      "A. ယောဟန် 10:10",
+      "B. ယောဟန် 11:25",
+      "C. ယောဟန် 14:6",
+      "D. ယောဟန် 8:12"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယုံကြည်ခြင်းကို “မြင်မတွေ့သောအရာတို့၏ သက်သေ” ဟု ဖော်ပြထားသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ရောမ 8:1",
+      "B. ဟေဗြဲ 10:23",
+      "C. ဟေဗြဲ 11:1",
+      "D. ယာကုပ် 2:17"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "မောရှေက မီးလောင်နေသော်လည်း မလောင်သည့် တောင်ပင်ကို မြင်ခဲ့သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ထွက်မြောက်ရာ 2:5",
+      "B. ထွက်မြောက်ရာ 3:2",
+      "C. ထွက်မြောက်ရာ 4:10",
+      "D. ထွက်မြောက်ရာ 14:21"
+    ],
+    "answer": "B"
+  },
+
+  {
+    "question": "“သခင်၏နာမ၌ ဝမ်းမြောက်ကြလော့” ဟု ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဖိလိပ္ပိ 4:4",
+      "B. ကိုလောသဲ 3:15",
+      "C. ဂလာတိ 5:22",
+      "D. ရောမ 12:12"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "နောဟာနှင့် သင်္ဘောအကြောင်းကို ယေရှု ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. မသဲ 23:37",
+      "B. မသဲ 24:37",
+      "C. မာကု 10:45",
+      "D. လုကာ 19:10"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "အချစ်၏ အဓိပ္ပါယ်ကို အပြည့်အစုံ ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ရောမ 8:28",
+      "B. ကောရိန္သု ၁၃:၄-၇",
+      "C. ဧဖက် 6:10",
+      "D. ဖိလိပ္ပိ 2:5"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "“ဘုရားသခင်၏ အကျိုးတော်အတွက် အရာအားလုံး ပေါင်းလုပ်ဆောင်သည်” ဟုဆိုသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ရောမ 5:8",
+      "B. ရောမ 6:23",
+      "C. ရောမ 8:28",
+      "D. ရောမ 12:2"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယေရှု၏ နောက်ဆုံးမိန့်ခွန်း (Great Commission) ပါဝင်သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. မသဲ 28:19-20",
+      "B. မာကု 16:15",
+      "C. လုကာ 24:47",
+      "D. ယောဟန် 20:21"
+    ],
+    "answer": "A"
+  },
+
+  {
+    "question": "ပေါလု၏ “ခန္ဓာကိုယ်သည် သန့်ရှင်းဝိညာဉ်၏ ဗိမာန်ဖြစ်သည်” ဆိုသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ကောရိန္သု 1:6:19",
+      "B. ကောရိန္သု 2:5:17",
+      "C. ရောမ 12:1",
+      "D. ဂလာတိ 2:20"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ယာကုပ်၏ “ယုံကြည်ခြင်းသည် အလုပ်မရှိလျှင် သေတတ်သည်” ဆိုသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယာကုပ် 1:5",
+      "B. ယာကုပ် 2:17",
+      "C. ယာကုပ် 3:1",
+      "D. ယာကုပ် 4:7"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှု၏ နှိမ့်ချမှုကို ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဖိလိပ္ပိ 2:6-8",
+      "B. ရောမ 5:1",
+      "C. ဂလာတိ 3:13",
+      "D. ဧဖက် 4:2"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "“ငါသည် အားနည်းသော်လည်း အားကောင်းသည်” ဟု ဆိုသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ကောရိန္သု ၂ 12:9",
+      "B. ရောမ 9:16",
+      "C. ဖိလိပ္ပိ 4:13",
+      "D. ဟေဗြဲ 4:12"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ဘုရားသခင်၏ လက်နက်အစုံကို ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဧဖက် 5:18",
+      "B. ဧဖက် 6:11-17",
+      "C. ရောမ 13:12",
+      "D. ကောလောသဲ 2:15"
+    ],
+    "answer": "B"
+  },
+
+  {
+    "question": "ယေရှုက “ကလေးငယ်များကို ငါ့ဆီလာခိုင်းလော့” ဟု ပြောသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. မသဲ 18:3",
+      "B. မသဲ 19:14",
+      "C. မာကု 9:37",
+      "D. လုကာ 15:4"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ပီတိရု၏ “ရွှေနှင့်ရွှေမရှိ” ဆိုသော မိန့်ခွန်းပါဝင်သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. တမန်တော် 2:38",
+      "B. တမန်တော် 3:6",
+      "C. တမန်တော် 4:12",
+      "D. တမန်တော် 5:29"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ပေါလု၏ ပြိုင်ပွဲဥပမာ ပါဝင်သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဟေဗြဲ 12:1",
+      "B. ကောရိန္သု ၁ 9:24",
+      "C. ဖိလိပ္ပိ 3:14",
+      "D. ရောမ 7:25"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "“ဘုရားသခင်သည် အချစ်ဖြစ်သည်” ဟုရေးထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယောဟန် 3:16",
+      "B. ယောဟန် ၁ 4:8",
+      "C. ရောမ 5:5",
+      "D. ဧဖက် 2:8"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယောဘ၏ စိတ်ရှည်မှုကို ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယောဘ 1:21",
+      "B. ယာကုပ် 5:11",
+      "C. ဆာလံ 37:7",
+      "D. ဟေဗြဲ 6:15"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှု၏ ဒုတိယအကြိမ် လာမည်ကို ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. တမန်တော် 1:11",
+      "B. မသဲ 16:27",
+      "C. လုကာ 21:27",
+      "D. ယောဟန် 14:3"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "“အသက်ရှင်သောယဇ်” ဖြစ်ရန် ခေါ်ဆိုသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ရောမ 12:1",
+      "B. ရောမ 8:11",
+      "C. ဧဖက် 2:10",
+      "D. ဖိလိပ္ပိ 1:6"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "သမ္မာကျမ်းစာကို “နှစ်ဖက်လှံတံ” ဟု ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဆာလံ 119:105",
+      "B. ဟေဗြဲ 4:12",
+      "C. ဧဖက် 6:17",
+      "D. ယောဟန် 6:63"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ဘုရားသခင်၏ စေတနာတော်ကို သိရန် ဆုတောင်းသည့် ပေါလု၏ ဆုတောင်းပါဝင်သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဧဖက် 1:17",
+      "B. ဖိလိပ္ပိ 1:9",
+      "C. ကောလောသဲ 1:9",
+      "D. ရောမ 15:13"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "“ကမ္ဘာပေါ်တွင် အခက်အခဲရှိသော်လည်း စိတ်မပူပါနှင့်” ဟု ယေရှု ပြောသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယောဟန် 15:18",
+      "B. ယောဟန် 16:33",
+      "C. မသဲ 6:34",
+      "D. လုကာ 12:15"
+    ],
+    "answer": "B"
+  },
+
+  {
+    "question": "ပေါလု၏ “ငါသည် ယေရှုတွင် အားရသည်” ဟုဆိုသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဂလာတိ 2:20",
+      "B. ဖိလိပ္ပိ 4:13",
+      "C. ရောမ 14:8",
+      "D. ကောရိန္သု 15:10"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယောဟန်၏ “အစမှာ နှုတ်ကပတ်တော်ရှိ၏” ဆိုသော ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယောဟန် 1:1",
+      "B. ယောဟန် 1:14",
+      "C. ယောဟန် 3:16",
+      "D. ယောဟန် 17:3"
+    ],
+    "answer": "A"
+  },
+  {
+    "question": "ဘုရားသခင်၏ ကရုဏာတော်အသစ်ဖြစ်ကြောင်း ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ဆာလံ 51:10",
+      "B. ယေရမိ 29:11",
+      "C. ငိုကြွေး 3:22-23",
+      "D. ဟေဗြဲ 13:8"
+    ],
+    "answer": "C"
+  },
+  {
+    "question": "ယေရှု၏ နာမ၌ ကယ်တင်ခြင်းရရှိကြောင်း ဖော်ပြထားသည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. ယောဟန် 14:6",
+      "B. တမန်တော် 4:12",
+      "C. ရောမ 10:9",
+      "D. ဧဖက် 2:8"
+    ],
+    "answer": "B"
+  },
+  {
+    "question": "ယေရှုက မိုးကောင်းကင်သို့ တက်ကြွသွားသည့် အကြောင်း ပါဝင်သည့် ကျမ်းပိုဒ်မှာ?",
+    "choices": [
+      "A. မာကု 16:19",
+      "B. လုကာ 24:51",
+      "C. တမန်တော် 1:9",
+      "D. အားလုံးမှန်"
+    ],
+    "answer": "D"
+  }
+]
 # Start quiz
 async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["quiz_index"] = 0
     context.user_data["score"] = 0
     await send_question(update, context)
 
-async def send_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    idx = context.user_data["quiz_index"]
+async def send_question(update: Update, context: ContextTypes.DEFAULT_TYPE, idx: int):
     q = QUIZ_QUESTIONS[idx]
-
     keyboard = [
-        [InlineKeyboardButton(f"A) {q['options']['A']}", callback_data="A")],
-        [InlineKeyboardButton(f"B) {q['options']['B']}", callback_data="B")],
-        [InlineKeyboardButton(f"C) {q['options']['C']}", callback_data="C")],
-        [InlineKeyboardButton(f"D) {q['options']['D']}", callback_data="D")],
+        [InlineKeyboardButton(q["choices"][0], callback_data="A")],
+        [InlineKeyboardButton(q["choices"][1], callback_data="B")],
+        [InlineKeyboardButton(q["choices"][2], callback_data="C")],
+        [InlineKeyboardButton(q["choices"][3], callback_data="D")],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -54,21 +992,15 @@ async def quiz_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     choice = query.data
 
     if choice == q["answer"]:
-        context.user_data["score"] += 1
-        feedback = f"✅ Correct! You chose {choice}.\nမှန်ကန်ပါသည်။ {choice} ကိုရွေးခဲ့သည်။"
+        feedback = f"✅ Correct! You chose {choice}."
     else:
-        feedback = f"❌ Wrong. You chose {choice}.\nမမှန်ပါ။ {choice} ကိုရွေးခဲ့သည်။"
+        feedback = f"❌ Wrong. You chose {choice}. Correct answer: {q['answer']}"
 
     await query.edit_message_text(text=feedback)
 
     # Move to next question
-    context.user_data["quiz_index"] += 1
+    context.user_data["quiz_index"] = idx + 1
     if context.user_data["quiz_index"] < len(QUIZ_QUESTIONS):
-        await send_question(update, context)
+        await send_question(update, context, context.user_data["quiz_index"])
     else:
-        score = context.user_data["score"]
-        total = len(QUIZ_QUESTIONS)
-        await query.message.reply_text(
-            f"🎯 Quiz finished!\nScore: {score}/{total}\n"
-            f"အမှတ်: {score}/{total}"
-        )
+        await query.message.reply_text("🎯 Quiz finished!")
